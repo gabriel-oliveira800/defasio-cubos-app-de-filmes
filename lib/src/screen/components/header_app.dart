@@ -11,7 +11,7 @@ class HeaderApp extends StatelessWidget {
 
     return Container(
       width: size.width,
-      height: size.height * 0.3,
+      height: size.height * 0.18,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,

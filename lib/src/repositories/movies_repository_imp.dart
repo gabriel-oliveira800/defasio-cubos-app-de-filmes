@@ -19,7 +19,7 @@ class MoviesRepositoryImp implements MoviesRepositoryInterface {
     if (response.statusCode == 200) {
       return Movie.fromJson(response.data);
     } else {
-      throw ResponseError();
+      throw ResponseError(message: 'Não foi possivél carrega as categorias');
     }
   }
 
