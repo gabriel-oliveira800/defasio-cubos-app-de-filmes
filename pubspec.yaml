@@ -25,6 +25,7 @@ dependencies:
   connectivity: ^2.0.2
   flutter_mobx: ^1.1.0+2
   flutter_modular: ^2.0.1
+  shared_preferences: ^0.5.12+4
 
 dev_dependencies:
   flutter_test:
