@@ -15,9 +15,13 @@ class HeaderApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
+    final _defaultWidthInput = 80.0;
+
     return AnimatedBuilder(
       animation: animation,
       builder: (_, __) {
+        var widthInput = animation.value * size.width;
+
         return Container(
           width: size.width,
           height: size.height * 0.18,
@@ -39,8 +43,8 @@ class HeaderApp extends StatelessWidget {
               ),
               SizedBox(height: 24),
               Container(
-                height: animation.value * 68,
-                width: animation.value * size.width,
+                height: 68,
+                width: widthInput > 93 ? widthInput : _defaultWidthInput,
                 decoration: BoxDecoration(
                   color: backgroundColor,
                   borderRadius: BorderRadius.circular(68 / 2),
@@ -49,6 +53,7 @@ class HeaderApp extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     Opacity(
                       opacity: animation.value,

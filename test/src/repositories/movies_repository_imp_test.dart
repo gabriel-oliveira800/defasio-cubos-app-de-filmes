@@ -1,8 +1,8 @@
-import 'package:movies/src/models/movie.dart';
 import 'package:movies/src/repositories/movies_repository_imp.dart';
 import 'package:movies/src/models/category.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:movies/src/erros/failure.dart';
+import 'package:movies/src/models/movie.dart';
 import 'package:mockito/mockito.dart';
 import 'package:dio/dio.dart';
 import 'dart:convert';

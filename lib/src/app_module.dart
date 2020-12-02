@@ -1,7 +1,7 @@
-import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:movies/src/screen/home_screen.dart';
+import 'package:flutter/material.dart';
+import 'package:dio/dio.dart';
 
 import 'app_widget.dart';
 import 'controllers/tab_store.dart';

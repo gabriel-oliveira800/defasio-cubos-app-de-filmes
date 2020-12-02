@@ -18,8 +18,9 @@ dependencies:
   cupertino_icons: ^1.0.0
   
   dio: ^3.0.10
-  mobx: ^1.2.1+4
   intl: ^0.16.1
+  mobx: ^1.2.1+4
+  edge_alert: ^0.0.1
   google_fonts: ^1.1.1
   connectivity: ^2.0.2
   flutter_mobx: ^1.1.0+2
