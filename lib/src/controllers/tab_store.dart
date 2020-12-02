@@ -10,7 +10,7 @@ abstract class _TabStoreBase with Store {
   final MoviesRepositoryInterface repository;
 
   _TabStoreBase(this.repository) {
-    _getAllCategories();
+    // _getAllCategories();
   }
 
   @observable

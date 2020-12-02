@@ -3,60 +3,85 @@ import 'package:movies/src/utils/constants.dart';
 
 class HeaderApp extends StatelessWidget {
   final Function(String) onChanged;
-  const HeaderApp({Key key, @required this.onChanged}) : super(key: key);
+  final Animation<double> animation;
+
+  const HeaderApp({
+    Key key,
+    @required this.onChanged,
+    @required this.animation,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    return Container(
-      width: size.width,
-      height: size.height * 0.18,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Filmes',
-            style: TextStyle(
-              fontSize: 18,
-              color: titleColor,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          SizedBox(height: 24),
-          Container(
-            height: 68,
-            width: size.width,
-            decoration: BoxDecoration(
-              color: backgroundColor,
-              borderRadius: BorderRadius.circular(68 / 2),
-            ),
-            padding: const EdgeInsets.symmetric(horizontal: 18),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Icon(Icons.search, color: Color(0xFF5E6770), size: 26),
-                SizedBox(width: 18),
-                Expanded(
-                  child: TextField(
-                    onChanged: onChanged,
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: subtitleColor,
-                      fontWeight: FontWeight.normal,
-                    ),
-                    decoration: InputDecoration.collapsed(
-                      hintText: 'Pesquise filmes',
-                    ),
+    return AnimatedBuilder(
+      animation: animation,
+      builder: (_, __) {
+        return Container(
+          width: size.width,
+          height: size.height * 0.18,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              AnimatedContainer(
+                padding: EdgeInsets.only(left: animation.value > 0.7 ? 0 : 180),
+                duration: Duration(seconds: 2),
+                child: Text(
+                  'Filmes',
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: titleColor,
+                    fontWeight: FontWeight.w600,
                   ),
-                )
-              ],
-            ),
+                ),
+              ),
+              SizedBox(height: 24),
+              Container(
+                height: animation.value * 68,
+                width: animation.value * size.width,
+                decoration: BoxDecoration(
+                  color: backgroundColor,
+                  borderRadius: BorderRadius.circular(68 / 2),
+                ),
+                padding: const EdgeInsets.symmetric(horizontal: 18),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Opacity(
+                      opacity: animation.value,
+                      child: Icon(
+                        Icons.search,
+                        size: 26,
+                        color: Color(0xFF5E6770),
+                      ),
+                    ),
+                    SizedBox(width: 18),
+                    Expanded(
+                      child: Opacity(
+                        opacity: animation.value,
+                        child: TextField(
+                          onChanged: onChanged,
+                          style: TextStyle(
+                            color: subtitleColor,
+                            fontWeight: FontWeight.normal,
+                            fontSize: animation.value * 14,
+                          ),
+                          decoration: InputDecoration.collapsed(
+                            hintText: 'Pesquise filmes',
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

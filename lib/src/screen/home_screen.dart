@@ -11,10 +11,22 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
+  AnimationController controller;
+  Animation<double> animation;
+
+  @override
+  void initState() {
+    super.initState();
+    controller =
+        AnimationController(duration: Duration(seconds: 2), vsync: this);
+    animation = Tween<double>(begin: 0, end: 1.0).animate(controller);
+
+    controller.forward();
+  }
+
   @override
   Widget build(BuildContext context) {
-
     final tabStore = Modular.get<TabStore>();
     return Scaffold(
       body: SafeArea(
@@ -25,7 +37,10 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           child: Column(
             children: [
-              HeaderApp(onChanged: (v) => print(v)),
+              HeaderApp(
+                animation: animation,
+                onChanged: (v) => print(v),
+              ),
               Observer(
                 builder: (_) => TabCategories(
                   categories: tabStore.categories,
