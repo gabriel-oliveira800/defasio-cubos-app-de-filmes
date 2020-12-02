@@ -3,10 +3,10 @@ import 'companie.dart';
 
 class Movie {
   final int id;
+  final int budget;
   final String title;
   final double rated;
-  final double budget;
-  final double runtime;
+  final int runtime;
 
   final String poster;
   final String overview;

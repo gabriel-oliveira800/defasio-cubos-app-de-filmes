@@ -12,6 +12,18 @@ class MoviesRepositoryImp implements MoviesRepositoryInterface {
   final url = 'https://api.themoviedb.org/3';
 
   @override
+  Future<Movie> getMovies(int id) async {
+    final endPointer = '$url/genre/movie/$id?api_key=$apiKey&language=pt-BR';
+    var response = await dio.get(endPointer);
+
+    if (response.statusCode == 200) {
+      return Movie.fromJson(response.data);
+    } else {
+      throw ResponseError();
+    }
+  }
+
+  @override
   Future<List<Category>> getCategories() async {
     final endPointer = '$url/genre/movie/list?api_key=$apiKey&language=pt-BR';
 
@@ -20,14 +32,24 @@ class MoviesRepositoryImp implements MoviesRepositoryInterface {
     if (response.statusCode == 200) {
       final data = response.data['genres'] as List;
       return data.map((json) => Category.fromJson(json)).toList();
-    }else {
+    } else {
       throw ResponseError();
     }
   }
 
   @override
   Future<List<Movie>> getMoviesByCategory(int categoryId) async {
-    throw UnimplementedError();
+    final endPointer = '$url/discover/movie?api_key=$apiKey&language=pt-BR';
+    final query = '&sort_by=popularity.desc&page=1&with_genres=$categoryId';
+
+    var response = await dio.get('$endPointer$query');
+
+    if (response.statusCode == 200) {
+      final data = response.data['results'] as List;
+      return data.map((json) => Movie.fromJson(json)).toList();
+    } else {
+      throw ResponseError();
+    }
   }
 
   @override

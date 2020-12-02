@@ -9,14 +9,13 @@ class AppWidget extends StatelessWidget {
       title: 'Movie Domain',
       theme: ThemeData(
         primaryColor: Colors.white,
+        accentColor: Color(0xFF00384C),
         textTheme: GoogleFonts.montserratTextTheme(Theme.of(context).textTheme)
       ),
-      locale: Locale('pt', 'BR'),
       debugShowCheckedModeBanner: false,
       initialRoute: Modular.initialRoute,
       navigatorKey: Modular.navigatorKey,
       onGenerateRoute: Modular.generateRoute,
-      supportedLocales: [const Locale('pt', 'BR')],
     );
   }
 }
