@@ -36,8 +36,8 @@ class MoviesRepositoryImp implements MoviesRepositoryInterface {
       return (data as List).map((json) => Category.fromJson(json)).toList();
     }
 
-    var response =
-        await dio.get('/genre/movie/list?api_key=$apiKey&language=pt-BR');
+    Map<String, dynamic> query = {'api_key': apiKey, 'language': 'pt-BR'};
+    var response = await dio.get('/genre/movie/list', queryParameters: query);
 
     if (response.statusCode == 200) {
       final data = response.data['genres'];
@@ -63,6 +63,7 @@ class MoviesRepositoryImp implements MoviesRepositoryInterface {
       'page': page,
       'api_key': apiKey,
       'with_genres': '28',
+      'language': 'pt-BR',
       'sort_by': 'popularity.desc',
     };
 

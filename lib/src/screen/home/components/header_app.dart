@@ -3,7 +3,7 @@ import 'package:movies/src/utils/constants.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter/material.dart';
 
-import 'tab_categories.dart';
+import '../../components/tab_categories.dart';
 
 class HeaderApp extends StatelessWidget {
   final TabStore tabstore;

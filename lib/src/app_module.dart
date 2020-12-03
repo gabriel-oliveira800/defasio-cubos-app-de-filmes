@@ -1,13 +1,13 @@
 import 'package:movies/src/controllers/connection_store.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:movies/src/screen/home_screen.dart';
+import 'package:movies/src/screen/home/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 
 import 'repositories/movies_repository_imp.dart';
 import 'controllers/movies_store.dart';
 import 'controllers/tab_store.dart';
-import 'screen/details_screen.dart';
+import 'screen/details/details_screen.dart';
 import 'app_widget.dart';
 
 class AppModule extends MainModule {

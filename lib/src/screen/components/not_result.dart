@@ -3,41 +3,46 @@ import 'package:movies/src/utils/constants.dart';
 
 class NotResult extends StatelessWidget {
   final Size size;
-  final String title;
+  final String text;
   final IconData icon;
   final Widget child;
 
   const NotResult({
     Key key,
+    this.text,
     this.child,
     @required this.size,
     this.icon = Icons.slow_motion_video,
-    this.title = 'Nenhum resultado encontrado',
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Icon(
-          icon,
-          size: size.height * 0.4,
-          color: Theme.of(context).accentColor,
-        ),
-        SizedBox(height: 38),
-        Text(
-          title ?? '',
-          style: TextStyle(
-            fontSize: 18,
-            color: titleColor,
-            fontWeight: FontWeight.w600,
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Icon(
+            icon,
+            size: size.height * 0.35,
+            color: titleColor ?? Theme.of(context).accentColor,
           ),
-        ),
-        child ?? Container(),
-      ],
+          Container(
+            width: size.width * 85,
+            child: Text(
+              text ?? '',
+              style: TextStyle(
+                fontSize: 16,
+                color: titleColor,
+                fontWeight: FontWeight.normal,
+              ),
+            ),
+            padding: const EdgeInsets.all(18.0),
+          ),
+          child ?? Container(),
+        ],
+      ),
     );
   }
 }

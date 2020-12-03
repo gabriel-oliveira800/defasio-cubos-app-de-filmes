@@ -1,5 +1,4 @@
 import 'package:movies/src/repositories/movies_repository_i.dart';
-import 'package:movies/src/models/category.dart';
 import 'package:movies/src/models/movie.dart';
 import 'package:mobx/mobx.dart';
 

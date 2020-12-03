@@ -1,11 +1,9 @@
-import 'package:edge_alert/edge_alert.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:mobx/mobx.dart';
 import 'package:movies/src/controllers/connection_store.dart';
 import 'package:movies/src/controllers/movies_store.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:movies/src/controllers/tab_store.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter/material.dart';
+import 'package:mobx/mobx.dart';
 
 import 'components/body_home.dart';
 import 'components/header_app.dart';
@@ -54,7 +52,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   movies: moviesStore.searching
                       ? moviesStore.filteredMovies
                       : moviesStore.movies,
+                  error: moviesStore.erros,
                   loading: moviesStore.loading,
+                  onRefresh: moviesStore.getMovies,
                   categories: moviesStore.tabStore.categories,
                 ),
               ),

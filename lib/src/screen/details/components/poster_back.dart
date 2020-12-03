@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 
 class PosterBannerBack extends StatelessWidget {
-  final Size size;
+  final double width;
+  final double height;
   final Function onTap;
 
   const PosterBannerBack({
     Key key,
     @required this.onTap,
-    @required this.size,
+    @required this.width,
+    @required this.height,
   }) : super(key: key);
 
   @override
@@ -17,9 +19,9 @@ class PosterBannerBack extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Container(
-        width: size.width,
+        width: width,
+        height: height,
         color: _backgroundColor,
-        height: size.height * 0.48,
         child: Container(
           width: 86,
           height: 36,

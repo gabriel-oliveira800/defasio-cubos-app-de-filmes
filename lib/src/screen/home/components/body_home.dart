@@ -2,18 +2,23 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:movies/src/models/category.dart';
 import 'package:movies/src/models/movie.dart';
 import 'package:flutter/material.dart';
+import 'package:movies/src/screen/components/button_movie.dart';
 
-import 'loading.dart';
+import '../../components/loading.dart';
 import 'movies_item_body.dart';
-import 'not_result.dart';
+import '../../components/not_result.dart';
 
 class BodyHome extends StatelessWidget {
+  final String error;
   final bool loading;
+  final Function onRefresh;
   final List<Movie> movies;
   final List<Category> categories;
 
   const BodyHome({
     Key key,
+    this.error,
+    this.onRefresh,
     this.loading = false,
     @required this.movies,
     @required this.categories,
@@ -32,8 +37,20 @@ class BodyHome extends StatelessWidget {
 
     if (movies.isEmpty) {
       return Padding(
-        child: NotResult(size: size),
-        padding: EdgeInsets.only(top: size.height / 5.5),
+        child: NotResult(
+          size: size,
+          text: error ?? 'Nenhum resultado encontrado',
+          child: Padding(
+            child: ButtonMovie(
+              onPressed: onRefresh,
+              icon: Icons.refresh,
+              width: size.width * 0.95,
+              text: 'Tentar novamente',
+            ),
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
+          ),
+        ),
+        padding: EdgeInsets.only(top: 80),
       );
     }
 
