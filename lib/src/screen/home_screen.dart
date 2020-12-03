@@ -1,4 +1,7 @@
+import 'package:edge_alert/edge_alert.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:mobx/mobx.dart';
+import 'package:movies/src/controllers/connection_store.dart';
 import 'package:movies/src/controllers/movies_store.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:movies/src/controllers/tab_store.dart';
@@ -13,11 +16,12 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
-  AnimationController controller;
+  ReactionDisposer _disposer;
   Animation<double> animation;
+  AnimationController controller;
 
-  var tabStore = Modular.get<TabStore>();
   var moviesStore = Modular.get<MoviesStore>();
+  var connectionStore = Modular.get<ConnectionStore>();
 
   @override
   void initState() {
@@ -28,6 +32,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
     controller.forward();
     moviesStore.getMovies();
+
+    _disposer = reaction(
+      (_) => connectionStore.stream.value,
+      (_) => connectionStore.showNetWorkingOn(context),
+    );
   }
 
   @override
@@ -39,11 +48,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           children: [
             Positioned(
               top: 128,
+              bottom: 0,
               child: Observer(
                 builder: (_) => BodyHome(
-                  movies: moviesStore.movies,
+                  movies: moviesStore.searching
+                      ? moviesStore.filteredMovies
+                      : moviesStore.movies,
                   loading: moviesStore.loading,
-                  categories: tabStore.categories,
+                  categories: moviesStore.tabStore.categories,
                 ),
               ),
             ),
@@ -53,8 +65,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               right: 0,
               child: Padding(
                 child: HeaderApp(
-                  tabstore: tabStore,
                   animation: animation,
+                  tabstore: moviesStore.tabStore,
                   onChanged: moviesStore.setSearch,
                 ),
                 padding: const EdgeInsets.all(12),
@@ -64,5 +76,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _disposer();
+    super.dispose();
   }
 }

@@ -16,10 +16,10 @@ abstract class _TabStoreBase with Store {
   }
 
   @observable
-  int currentTab = 0;
+  int indexTab = 0;
 
   @action
-  void setCurrentTab(int value) => currentTab = value;
+  void setCurrentTab(int value) => indexTab = value;
 
   ObservableList<Category> categories = ObservableList<Category>();
 
@@ -27,6 +27,9 @@ abstract class _TabStoreBase with Store {
   void setCategories(List<Category> value) {
     categories = ObservableList.of(value);
   }
+
+  @computed
+  Category get getCurrentTab => categories.elementAt(indexTab);
 
   @observable
   String error;

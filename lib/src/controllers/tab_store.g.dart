@@ -9,18 +9,26 @@ part of 'tab_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$TabStore on _TabStoreBase, Store {
-  final _$currentTabAtom = Atom(name: '_TabStoreBase.currentTab');
+  Computed<Category> _$getCurrentTabComputed;
 
   @override
-  int get currentTab {
-    _$currentTabAtom.reportRead();
-    return super.currentTab;
+  Category get getCurrentTab =>
+      (_$getCurrentTabComputed ??= Computed<Category>(() => super.getCurrentTab,
+              name: '_TabStoreBase.getCurrentTab'))
+          .value;
+
+  final _$indexTabAtom = Atom(name: '_TabStoreBase.indexTab');
+
+  @override
+  int get indexTab {
+    _$indexTabAtom.reportRead();
+    return super.indexTab;
   }
 
   @override
-  set currentTab(int value) {
-    _$currentTabAtom.reportWrite(value, super.currentTab, () {
-      super.currentTab = value;
+  set indexTab(int value) {
+    _$indexTabAtom.reportWrite(value, super.indexTab, () {
+      super.indexTab = value;
     });
   }
 
@@ -75,8 +83,9 @@ mixin _$TabStore on _TabStoreBase, Store {
   @override
   String toString() {
     return '''
-currentTab: ${currentTab},
-error: ${error}
+indexTab: ${indexTab},
+error: ${error},
+getCurrentTab: ${getCurrentTab}
     ''';
   }
 }

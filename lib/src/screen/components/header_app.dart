@@ -60,7 +60,7 @@ class HeaderApp extends StatelessWidget {
               ),
               SizedBox(height: 24),
               Container(
-                height: 47,
+                height: 56,
                 width: widthInput > 93 ? widthInput : _defaultWidthInput,
                 decoration: BoxDecoration(
                   color: backgroundColor,
@@ -105,7 +105,7 @@ class HeaderApp extends StatelessWidget {
                 builder: (_) => TabCategories(
                   categories: tabstore.categories,
                   onChangedTab: tabstore.setCurrentTab,
-                  currentTabSelected: tabstore.currentTab,
+                  currentTabSelected: tabstore.indexTab,
                 ),
               )
             ],

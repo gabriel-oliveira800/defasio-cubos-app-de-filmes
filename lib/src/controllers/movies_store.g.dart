@@ -9,20 +9,13 @@ part of 'movies_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$MoviesStore on _MoviesStoreBase, Store {
-  final _$searchAtom = Atom(name: '_MoviesStoreBase.search');
+  Computed<bool> _$searchingComputed;
 
   @override
-  String get search {
-    _$searchAtom.reportRead();
-    return super.search;
-  }
-
-  @override
-  set search(String value) {
-    _$searchAtom.reportWrite(value, super.search, () {
-      super.search = value;
-    });
-  }
+  bool get searching =>
+      (_$searchingComputed ??= Computed<bool>(() => super.searching,
+              name: '_MoviesStoreBase.searching'))
+          .value;
 
   final _$pageAtom = Atom(name: '_MoviesStoreBase.page');
 
@@ -39,18 +32,18 @@ mixin _$MoviesStore on _MoviesStoreBase, Store {
     });
   }
 
-  final _$currentCategoryAtom = Atom(name: '_MoviesStoreBase.currentCategory');
+  final _$searchAtom = Atom(name: '_MoviesStoreBase.search');
 
   @override
-  Category get currentCategory {
-    _$currentCategoryAtom.reportRead();
-    return super.currentCategory;
+  String get search {
+    _$searchAtom.reportRead();
+    return super.search;
   }
 
   @override
-  set currentCategory(Category value) {
-    _$currentCategoryAtom.reportWrite(value, super.currentCategory, () {
-      super.currentCategory = value;
+  set search(String value) {
+    _$searchAtom.reportWrite(value, super.search, () {
+      super.search = value;
     });
   }
 
@@ -103,17 +96,6 @@ mixin _$MoviesStore on _MoviesStoreBase, Store {
       ActionController(name: '_MoviesStoreBase');
 
   @override
-  void setSearch(String value) {
-    final _$actionInfo = _$_MoviesStoreBaseActionController.startAction(
-        name: '_MoviesStoreBase.setSearch');
-    try {
-      return super.setSearch(value);
-    } finally {
-      _$_MoviesStoreBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   void setPage(int value) {
     final _$actionInfo = _$_MoviesStoreBaseActionController.startAction(
         name: '_MoviesStoreBase.setPage');
@@ -125,11 +107,11 @@ mixin _$MoviesStore on _MoviesStoreBase, Store {
   }
 
   @override
-  void setCurrentCategory(Category value) {
+  void setSearch(String value) {
     final _$actionInfo = _$_MoviesStoreBaseActionController.startAction(
-        name: '_MoviesStoreBase.setCurrentCategory');
+        name: '_MoviesStoreBase.setSearch');
     try {
-      return super.setCurrentCategory(value);
+      return super.setSearch(value);
     } finally {
       _$_MoviesStoreBaseActionController.endAction(_$actionInfo);
     }
@@ -138,11 +120,11 @@ mixin _$MoviesStore on _MoviesStoreBase, Store {
   @override
   String toString() {
     return '''
-search: ${search},
 page: ${page},
-currentCategory: ${currentCategory},
+search: ${search},
 erros: ${erros},
-loading: ${loading}
+loading: ${loading},
+searching: ${searching}
     ''';
   }
 }

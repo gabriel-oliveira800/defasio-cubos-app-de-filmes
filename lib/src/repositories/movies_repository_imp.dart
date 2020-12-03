@@ -52,6 +52,13 @@ class MoviesRepositoryImp implements MoviesRepositoryInterface {
 
   @override
   Future<MoviesResults> getMoviesByCategory(int id, {int page = 1}) async {
+    // final preferences = await SharedPreferences.getInstance();
+
+    // if (preferences.containsKey(keysMovies)) {
+    //   var data = json.decode(preferences.get(keysMovies));
+    //   return MoviesResults.fromJson(data);
+    // }
+
     Map<String, dynamic> query = {
       'page': page,
       'api_key': apiKey,
@@ -62,6 +69,8 @@ class MoviesRepositoryImp implements MoviesRepositoryInterface {
     var response = await dio.get('/discover/movie', queryParameters: query);
 
     if (response.statusCode == 200) {
+      // await preferences.setString(keysMovies, json.encode(response.data));
+
       return MoviesResults.fromJson(response.data);
     } else {
       throw ResponseError(message: 'Error ao carregar os filmes');

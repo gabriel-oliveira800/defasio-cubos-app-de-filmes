@@ -66,13 +66,14 @@ class _CategoryTabItem extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Container(
+        height: 48,
         decoration: BoxDecoration(
           color: selected ? _accentColor : _white,
           borderRadius: BorderRadius.circular(48 / 2),
           border: selected ? null : Border.all(color: _borderColor),
         ),
-        constraints: BoxConstraints(minWidth: 79, maxHeight: 48),
         alignment: Alignment.center,
+        padding: const EdgeInsets.symmetric(horizontal: 12),
         child: Text(
           name,
           style: TextStyle(

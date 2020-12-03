@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 import 'loading.dart';
 import 'movies_item_body.dart';
+import 'not_result.dart';
 
 class BodyHome extends StatelessWidget {
   final bool loading;
@@ -29,10 +30,17 @@ class BodyHome extends StatelessWidget {
       );
     }
 
+    if (movies.isEmpty) {
+      return Padding(
+        child: NotResult(size: size),
+        padding: EdgeInsets.only(top: size.height / 5.5),
+      );
+    }
+
     return Container(
       width: size.width,
       height: size.height,
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.symmetric(horizontal: 12),
       child: ListView.builder(
         padding: const EdgeInsets.only(top: 48),
         itemCount: movies.length,
@@ -41,10 +49,10 @@ class BodyHome extends StatelessWidget {
           var categoriesItems = <Category>[];
 
           item.categories.map((ids) {
-             categories.where((element) {
-               if(element.id == ids) categoriesItems.add(element);
-               return true;
-             }).toList();
+            categories.where((element) {
+              if (element.id == ids) categoriesItems.add(element);
+              return true;
+            }).toList();
           }).toList();
 
           return Padding(
