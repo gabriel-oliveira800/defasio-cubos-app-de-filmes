@@ -19,19 +19,25 @@ class TabCategories extends StatelessWidget {
     final _duration = Duration(milliseconds: 300);
 
     return AnimatedContainer(
+      height: 48,
+      width: size.width,
       duration: _duration,
-      height: categories.isEmpty ? 0 :  68,
-      width: categories.isEmpty ? 0: size.width,
       child: ListView.builder(
         itemCount: categories.length,
         scrollDirection: Axis.horizontal,
-        padding: const EdgeInsets.all(8.0),
         itemBuilder: (_, index) {
           var category = categories[index];
-          return _CategoryTabItem(
-            name: category.name,
-            onTap: () => onChangedTab(index),
-            selected: index == currentTabSelected,
+          return Padding(
+            padding: const EdgeInsets.only(
+              top: 8.0,
+              bottom: 8.0,
+              right: 8.0,
+            ),
+            child: _CategoryTabItem(
+              name: category.name,
+              onTap: () => onChangedTab(index),
+              selected: index == currentTabSelected,
+            ),
           );
         },
       ),
@@ -67,8 +73,6 @@ class _CategoryTabItem extends StatelessWidget {
         ),
         constraints: BoxConstraints(minWidth: 79, maxHeight: 48),
         alignment: Alignment.center,
-        margin: const EdgeInsets.symmetric(horizontal: 6),
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
         child: Text(
           name,
           style: TextStyle(

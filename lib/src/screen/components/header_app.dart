@@ -1,12 +1,18 @@
-import 'package:flutter/material.dart';
+import 'package:movies/src/controllers/tab_store.dart';
 import 'package:movies/src/utils/constants.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter/material.dart';
+
+import 'tab_categories.dart';
 
 class HeaderApp extends StatelessWidget {
+  final TabStore tabstore;
   final Function(String) onChanged;
   final Animation<double> animation;
 
   const HeaderApp({
     Key key,
+    @required this.tabstore,
     @required this.onChanged,
     @required this.animation,
   }) : super(key: key);
@@ -24,7 +30,18 @@ class HeaderApp extends StatelessWidget {
 
         return Container(
           width: size.width,
-          height: size.height * 0.18,
+          height: size.height * 0.35,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Color(0xFFFFFFFF),
+                Color(0xFFFFFFFF),
+                Colors.white.withAlpha(0),
+              ],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
+          ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -43,7 +60,7 @@ class HeaderApp extends StatelessWidget {
               ),
               SizedBox(height: 24),
               Container(
-                height: 68,
+                height: 47,
                 width: widthInput > 93 ? widthInput : _defaultWidthInput,
                 decoration: BoxDecoration(
                   color: backgroundColor,
@@ -83,6 +100,14 @@ class HeaderApp extends StatelessWidget {
                   ],
                 ),
               ),
+              SizedBox(height: 18),
+              Observer(
+                builder: (_) => TabCategories(
+                  categories: tabstore.categories,
+                  onChangedTab: tabstore.setCurrentTab,
+                  currentTabSelected: tabstore.currentTab,
+                ),
+              )
             ],
           ),
         );

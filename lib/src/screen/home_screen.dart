@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:movies/src/controllers/tab_store.dart';
 
+import 'components/body_home.dart';
 import 'components/header_app.dart';
-import 'components/tab_categories.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -30,26 +29,27 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     final tabStore = Modular.get<TabStore>();
     return Scaffold(
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            vertical: 48,
-            horizontal: 20,
-          ),
-          child: Column(
-            children: [
-              HeaderApp(
-                animation: animation,
-                onChanged: (v) => print(v),
-              ),
-              Observer(
-                builder: (_) => TabCategories(
-                  categories: tabStore.categories,
-                  onChangedTab: tabStore.setCurrentTab,
-                  currentTabSelected: tabStore.currentTab,
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            Positioned(
+              top: 128,
+              child: BodyHome(),
+            ),
+            Positioned(
+              top: 0,
+              left: 0,
+              right: 0,
+              child: Padding(
+                padding: const EdgeInsets.all(12),
+                child: HeaderApp(
+                  tabstore: tabStore,
+                  animation: animation,
+                  onChanged: (v) => print(v),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

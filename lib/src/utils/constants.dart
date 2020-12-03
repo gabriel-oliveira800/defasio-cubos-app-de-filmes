@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-String get baseUrlImages => 'https://image.tmdb.org/t/p/w500/89QTZmn34iwXYeCpVxhC9UrT8sX.jpg'; 
+String get baseUrlImages => 'https://image.tmdb.org/t/p/w500'; 
 
 String keysCategories = 'CATEGORIES';
 
