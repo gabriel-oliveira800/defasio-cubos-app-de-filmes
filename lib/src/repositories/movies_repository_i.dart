@@ -6,5 +6,5 @@ abstract class MoviesRepositoryInterface {
   Future<Movie> getMovies(int id);
   Future<List<Category>> getCategories();
   Future<List<Movie>> searchMovies(String query);
-  Future<MoviesResults> getMoviesByCategory(int id, {int page = 0});
+  Future<MoviesResults> getMoviesByCategory(int id, {int page = 1});
 }

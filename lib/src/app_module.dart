@@ -13,10 +13,10 @@ class AppModule extends MainModule {
   @override
   List<Bind> get binds {
     return [
-      Bind((i) => Dio()),
+      Bind((i) => Dio(BaseOptions(baseUrl: 'https://api.themoviedb.org/3'))),
+      Bind((i) => MoviesRepositoryImp(i())),
       Bind((i) => TabStore(i())),
       Bind((i) => MoviesStore(i())),
-      Bind((i) => MoviesRepositoryImp(i())),
     ];
   }
 

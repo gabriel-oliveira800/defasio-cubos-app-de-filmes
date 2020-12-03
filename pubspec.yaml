@@ -21,6 +21,7 @@ dependencies:
   intl: ^0.16.1
   mobx: ^1.2.1+4
   edge_alert: ^0.0.1
+  cache_image: ^1.0.5
   google_fonts: ^1.1.1
   connectivity: ^2.0.2
   flutter_mobx: ^1.1.0+2

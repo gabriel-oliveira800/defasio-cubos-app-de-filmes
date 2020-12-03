@@ -1,4 +1,6 @@
+import 'package:cache_image/cache_image.dart';
 import 'package:flutter/material.dart';
+import 'package:movies/src/models/category.dart';
 import 'package:movies/src/models/movie.dart';
 import 'package:movies/src/utils/constants.dart';
 
@@ -7,6 +9,7 @@ class MovieItemBody extends StatelessWidget {
   final double height;
   final double radius;
   final Function onTap;
+  final List<Category> categories;
 
   const MovieItemBody({
     Key key,
@@ -14,6 +17,7 @@ class MovieItemBody extends StatelessWidget {
     this.radius = 10,
     this.height = 430,
     @required this.movie,
+    @required this.categories,
   }) : assert(movie != null);
 
   @override
@@ -36,7 +40,8 @@ class MovieItemBody extends StatelessWidget {
           ],
           borderRadius: BorderRadius.circular(radius),
           image: DecorationImage(
-            image: NetworkImage(baseUrlImages + movie.posterUrl),
+            fit: BoxFit.fill,
+            image: CacheImage(baseUrlImages + movie.backdropUrl),
           ),
         ),
         alignment: Alignment.bottomCenter,
@@ -57,7 +62,7 @@ class MovieItemBody extends StatelessWidget {
               bottomRight: Radius.circular(radius),
             ),
           ),
-          alignment: Alignment.bottomCenter,
+          alignment: Alignment.bottomLeft,
           padding: const EdgeInsets.only(
             left: 24,
             bottom: 32,
@@ -75,16 +80,12 @@ class MovieItemBody extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 12),
-              Wrap(
-                children: movie.categories.map((value) {
-                  return Text(
-                    value.toString().toUpperCase() + ' - ',
-                    style: TextStyle(
-                      fontSize: 10,
-                      color: Colors.white,
-                    ),
-                  );
-                }).toList(),
+              Text(
+                categories.join(" - ").toUpperCase(),
+                style: TextStyle(
+                  fontSize: 10,
+                  color: Colors.white,
+                ),
               ),
             ],
           ),

@@ -11,8 +11,8 @@ abstract class _MoviesStoreBase with Store {
 
   _MoviesStoreBase(this._repository) {
     autorun((_) {
-      if (!search.trim().isNotEmpty) {
-        searchMovies();
+      if (search.trim().isNotEmpty) {
+        print(search);
       }
     });
   }
@@ -48,11 +48,11 @@ abstract class _MoviesStoreBase with Store {
     loading = true;
 
     try {
-      var result = await _repository.getMoviesByCategory(currentCategory.id);
+      var result = await _repository.getMoviesByCategory(28);
 
       if (result != null) {
         page = result.page;
-        movies = result.movies;
+        movies = ObservableList<Movie>.of(result.movies);
 
         erros = null;
         loading = false;
