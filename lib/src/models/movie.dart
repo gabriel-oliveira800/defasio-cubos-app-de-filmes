@@ -1,78 +1,55 @@
-import 'category.dart';
-import 'companie.dart';
-
 class Movie {
-  final int id;
-  final int budget;
-  final String title;
-  final double rated;
-  final int runtime;
+  int id;
+  String title;
+  String originalTitle;
+  String backdropUrl;
+  String posterUrl;
+  String overview;
+  double rated;
+  List<int> categories;
+  DateTime releaseDate;
 
-  final String poster;
-  final String overview;
-  final DateTime releaseDate;
-  final String originalTitle;
-
-  final List<Companie> companies;
-  final List<Category> categories;
-
-  const Movie({
+  Movie({
     this.id,
     this.title,
-    this.rated,
-    this.budget,
-    this.poster,
-    this.runtime,
+    this.originalTitle,
+    this.backdropUrl,
+    this.posterUrl,
     this.overview,
-    this.companies,
+    this.rated,
     this.categories,
     this.releaseDate,
-    this.originalTitle,
   });
 
-  factory Movie.fromJson(Map json) {
-    var genres = json['genres'] == null
-        ? <Category>[]
-        : (json['genres'] as List)
-            .map((value) => Category.fromJson(value))
-            .toList();
-
-    var data = json['production_companies'] == null
-        ? <Companie>[]
-        : (json['production_companies'] as List)
-            .map((value) => Companie.fromJson(value))
-            .toList();
-
+  factory Movie.fromJson(Map<String, dynamic> json) {
     return Movie(
       id: json['id'],
       title: json['title'],
-      originalTitle: json['original_title'],
-      rated: json['vote_average'],
-      budget: json['budget'],
-      runtime: json['runtime'],
-      poster: json['backdrop_path'],
       overview: json['overview'],
+      posterUrl: json['poster_path'],
+      backdropUrl: json['backdrop_path'],
+      originalTitle: json['original_title'],
+      rated: double.parse(json['vote_average'].toString()),
       releaseDate: DateTime.parse(json['release_date']),
-      categories: genres,
-      companies: data,
+      categories: json['genre_ids'] != null
+          ? (json['genre_ids'] as List)
+              .map<int>((genre) => int.parse(genre.toString()))
+              .toList()
+          : [],
     );
   }
 
-  Map<String, dynamic> toMap() {
-    var data = Map<String, dynamic>();
-
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['title'] = this.title;
-    data['original_title'] = this.originalTitle;
-    data['vote_average'] = this.rated;
-    data['budget'] = this.budget;
-    data['runtime'] = this.runtime;
-    data['backdrop_path'] = this.poster;
     data['overview'] = this.overview;
+    data['vote_average'] = this.rated;
+    data['genre_ids'] = this.categories;
+    data['poster_path'] = this.posterUrl;
     data['release_date'] = this.releaseDate;
-    data['genres'] = this.categories;
-    data['production_companies'] = this.companies;
-
+    data['backdrop_path'] = this.backdropUrl;
+    data['original_title'] = this.originalTitle;
     return data;
   }
 }

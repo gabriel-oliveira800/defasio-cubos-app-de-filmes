@@ -2,11 +2,11 @@ import 'cast.dart';
 import 'crew.dart';
 
 class Credits {
-  final int id;
-  final List<Cast> casts;
-  final List<Crew> crew;
+  int id;
+  List<Cast> casts;
+  List<Crew> crew;
 
-  const Credits({this.id, this.casts, this.crew});
+  Credits({this.id, this.casts, this.crew});
 
   factory Credits.fromJson(Map json) {
     return Credits(

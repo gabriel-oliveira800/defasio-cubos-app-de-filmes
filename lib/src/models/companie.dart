@@ -1,10 +1,10 @@
 class Companie {
-  final int id;
-  final String name;
-  final String logoUrl;
-  final String originCountry;
+  int id;
+  String name;
+  String logoUrl;
+  String originCountry;
 
-  const Companie({this.id, this.name, this.logoUrl, this.originCountry});
+   Companie({this.id, this.name, this.logoUrl, this.originCountry});
 
   factory Companie.fromJson(Map json){
     return Companie(

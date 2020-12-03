@@ -1,10 +1,10 @@
 class Crew {
-  final int id;
-  final String name;
-  final String job;
-  final String profile;
+  int id;
+  String name;
+  String job;
+  String profile;
 
-  const Crew({this.id, this.name,this.job, this.profile});
+  Crew({this.id, this.name,this.job, this.profile});
 
   factory Crew.fromJson(Map json){
     return Crew(

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:movies/src/erros/failure.dart';
 import 'package:movies/src/models/category.dart';
+import 'package:movies/src/models/movies_result.dart';
 import 'package:movies/src/utils/api_key.dart';
 import 'package:movies/src/models/movie.dart';
 import 'package:movies/src/utils/constants.dart';
@@ -52,17 +53,16 @@ class MoviesRepositoryImp implements MoviesRepositoryInterface {
   }
 
   @override
-  Future<List<Movie>> getMoviesByCategory(int categoryId) async {
-    final endPointer = '$url/discover/movie?api_key=$apiKey&language=pt-BR';
-    final query = '&sort_by=popularity.desc&page=1&with_genres=$categoryId';
+  Future<MoviesResults> getMoviesByCategory(int id, {int page = 0}) async {
+    final endPointer =
+        'discover/movie?api_key=$apiKey&page=$page&sort_by=popularity.desc&with_genres=$id';
 
-    var response = await dio.get('$endPointer$query');
+    var response = await dio.get(endPointer);
 
     if (response.statusCode == 200) {
-      final data = response.data['results'] as List;
-      return data.map((json) => Movie.fromJson(json)).toList();
+      return MoviesResults.fromJson(response.data);
     } else {
-      throw ResponseError();
+      throw ResponseError(message: 'Error ao carregar os filmes');
     }
   }
 

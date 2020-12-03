@@ -80,93 +80,96 @@ const categoriesTeste =  '''{
 }''';
 
 const moviesTeste = '''{
-  "adult": false,
-  "backdrop_path": "/rr7E0NoGKxvbkb89eR1GwfoYjpA.jpg",
-  "belongs_to_collection": null,
-  "budget": 63000000,
-  "genres": [
+  "page": 1,
+  "results": [
     {
-      "id": 18,
-      "name": "Drama"
+      "adult": false,
+      "backdrop_path": "/fTDzKoQIh1HeyjfpG5AHMi2jxAJ.jpg",
+      "genre_ids": [
+        28,
+        35
+      ],
+      "id": 682377,
+      "original_language": "en",
+      "original_title": "Chick Fight",
+      "overview": "Quando Anna Wyncomb é apresentada a um submundo de luta feminina para lidar com toda a bagunça que está a sua vida, ela percebe que está mais conectada à história do clube do que imaginava, redescobrindo a si mesma, sua força interior e seu verdadeiro propósito.",
+      "popularity": 1443.813,
+      "poster_path": "/4ZocdxnOO6q2UbdKye2wgofLFhB.jpg",
+      "release_date": "2020-11-13",
+      "title": "Chick Fight",
+      "video": false,
+      "vote_average": 5.9,
+      "vote_count": 41
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/86L8wqGMDbwURPni2t7FQ0nDjsH.jpg",
+      "genre_ids": [
+        28,
+        53
+      ],
+      "id": 724989,
+      "original_language": "en",
+      "original_title": "Hard Kill",
+      "overview": "O trabalho do bilionário CEO de tecnologia Donovan Chalmers (Willis) é tão valioso que ele contrata mercenários para protegê-lo e um grupo terrorista sequestra sua filha apenas para obtê-lo.",
+      "popularity": 1134.48,
+      "poster_path": "/ugZW8ocsrfgI95pnQ7wrmKDxIe.jpg",
+      "release_date": "2020-10-23",
+      "title": "Hard Kill",
+      "video": false,
+      "vote_average": 5,
+      "vote_count": 215
     }
   ],
-  "homepage": "http://www.foxmovies.com/movies/fight-club",
-  "id": 550,
-  "imdb_id": "tt0137523",
-  "original_language": "en",
-  "original_title": "Fight Club",
-  "overview": "Um homem deprimido que sofre de insônia conhece um estranho vendedor chamado Tyler Durden e se vê morando em uma casa suja depois que seu perfeito apartamento é destruído. A dupla forma um clube com regras rígidas onde homens lutam. A parceria perfeita é comprometida quando uma mulher, Marla, atrai a atenção de Tyler.",
-  "popularity": 51.007,
-  "poster_path": "/ohXr0v9U0TfFu9IXbSDm5zoGV3R.jpg",
-  "production_companies": [
+  "total_pages": 500,
+  "total_results": 10000
+}
+''';
+
+
+const moviesTestePaginate = '''{
+  "page": 2,
+  "results": [
     {
-      "id": 508,
-      "logo_path": "/7PzJdsLGlR7oW4J0J5Xcd0pHGRg.png",
-      "name": "Regency Enterprises",
-      "origin_country": "US"
+      "adult": false,
+      "backdrop_path": "/fTDzKoQIh1HeyjfpG5AHMi2jxAJ.jpg",
+      "genre_ids": [
+        28,
+        35
+      ],
+      "id": 682377,
+      "original_language": "en",
+      "original_title": "Chick Fight",
+      "overview": "Quando Anna Wyncomb é apresentada a um submundo de luta feminina para lidar com toda a bagunça que está a sua vida, ela percebe que está mais conectada à história do clube do que imaginava, redescobrindo a si mesma, sua força interior e seu verdadeiro propósito.",
+      "popularity": 1443.813,
+      "poster_path": "/4ZocdxnOO6q2UbdKye2wgofLFhB.jpg",
+      "release_date": "2020-11-13",
+      "title": "Chick Fight",
+      "video": false,
+      "vote_average": 5.9,
+      "vote_count": 41
     },
     {
-      "id": 711,
-      "logo_path": "/tEiIH5QesdheJmDAqQwvtN60727.png",
-      "name": "Fox 2000 Pictures",
-      "origin_country": "US"
-    },
-    {
-      "id": 20555,
-      "logo_path": "/hD8yEGUBlHOcfHYbujp71vD8gZp.png",
-      "name": "Taurus Film",
-      "origin_country": "DE"
-    },
-    {
-      "id": 54051,
-      "logo_path": null,
-      "name": "Atman Entertainment",
-      "origin_country": ""
-    },
-    {
-      "id": 54052,
-      "logo_path": null,
-      "name": "Knickerbocker Films",
-      "origin_country": "US"
-    },
-    {
-      "id": 25,
-      "logo_path": "/qZCc1lty5FzX30aOCVRBLzaVmcp.png",
-      "name": "20th Century Fox",
-      "origin_country": "US"
-    },
-    {
-      "id": 4700,
-      "logo_path": "/A32wmjrs9Psf4zw0uaixF0GXfxq.png",
-      "name": "The Linson Company",
-      "origin_country": ""
+      "adult": false,
+      "backdrop_path": "/86L8wqGMDbwURPni2t7FQ0nDjsH.jpg",
+      "genre_ids": [
+        28,
+        53
+      ],
+      "id": 724989,
+      "original_language": "en",
+      "original_title": "Hard Kill",
+      "overview": "O trabalho do bilionário CEO de tecnologia Donovan Chalmers (Willis) é tão valioso que ele contrata mercenários para protegê-lo e um grupo terrorista sequestra sua filha apenas para obtê-lo.",
+      "popularity": 1134.48,
+      "poster_path": "/ugZW8ocsrfgI95pnQ7wrmKDxIe.jpg",
+      "release_date": "2020-10-23",
+      "title": "Hard Kill",
+      "video": false,
+      "vote_average": 5,
+      "vote_count": 215
     }
   ],
-  "production_countries": [
-    {
-      "iso_3166_1": "DE",
-      "name": "Germany"
-    },
-    {
-      "iso_3166_1": "US",
-      "name": "United States of America"
-    }
-  ],
-  "release_date": "1999-10-15",
-  "revenue": 100853753,
-  "runtime": 139,
-  "spoken_languages": [
-    {
-      "english_name": "English",
-      "iso_639_1": "en",
-      "name": "English"
-    }
-  ],
-  "status": "Released",
-  "tagline": "Má conduta. Caos. Sabão.",
-  "title": "Clube da Luta",
-  "video": false,
-  "vote_average": 8.4,
-  "vote_count": 20526
+  "total_pages": 500,
+  "total_results": 10000
 }
 ''';

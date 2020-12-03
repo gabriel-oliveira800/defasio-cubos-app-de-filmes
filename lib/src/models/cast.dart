@@ -1,9 +1,9 @@
 class Cast {
-  final int id;
-  final String name;
-  final String profile;
+  int id;
+  String name;
+  String profile;
 
-  const Cast({this.id, this.name, this.profile});
+  Cast({this.id, this.name, this.profile});
 
   factory Cast.fromJson(Map json){
     return Cast(

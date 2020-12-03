@@ -1,8 +1,8 @@
 class Category {
-  final int id;
-  final String name;
+  int id;
+  String name;
 
-  const Category({this.id, this.name});
+  Category({this.id, this.name});
 
   factory Category.fromJson(Map json){
     return Category(
