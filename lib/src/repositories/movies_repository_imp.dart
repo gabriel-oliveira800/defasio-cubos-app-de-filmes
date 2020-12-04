@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:movies/src/models/credits.dart';
+import 'package:movies/src/models/movie_details.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:movies/src/models/movies_result.dart';
 import 'package:movies/src/utils/constants.dart';
@@ -16,12 +18,13 @@ class MoviesRepositoryImp implements MoviesRepositoryInterface {
   const MoviesRepositoryImp(this.dio);
 
   @override
-  Future<Movie> getMovies(int id) async {
-    var response =
-        await dio.get('/genre/movie/$id?api_key=$apiKey&language=pt-BR');
+  Future<MovieDetails> getMovieDetails(int id) async {
+    Map<String, dynamic> query = {'api_key': apiKey, 'language': 'pt-BR'};
+
+    var response = await dio.get('/movie/$id');
 
     if (response.statusCode == 200) {
-      return Movie.fromJson(response.data);
+      return MovieDetails.fromJson(response.data);
     } else {
       throw ResponseError(message: 'Não foi possivél carrega as categorias');
     }
@@ -29,20 +32,20 @@ class MoviesRepositoryImp implements MoviesRepositoryInterface {
 
   @override
   Future<List<Category>> getCategories() async {
-    final preferences = await SharedPreferences.getInstance();
+    // final preferences = await SharedPreferences.getInstance();
 
-    if (preferences.containsKey(keysCategories)) {
-      var data = json.decode(preferences.get(keysCategories));
-      return (data as List).map((json) => Category.fromJson(json)).toList();
-    }
+    // if (preferences.containsKey(keysCategories)) {
+    //   var data = json.decode(preferences.get(keysCategories));
+    //   return (data as List).map((json) => Category.fromJson(json)).toList();
+    // }
 
     Map<String, dynamic> query = {'api_key': apiKey, 'language': 'pt-BR'};
-    var response = await dio.get('/genre/movie/list', queryParameters: query);
+    var response = await dio.get('/genre/movie/list');
 
     if (response.statusCode == 200) {
       final data = response.data['genres'];
 
-      await preferences.setString(keysCategories, json.encode(data));
+      // await preferences.setString(keysCategories, json.encode(data));
 
       return (data as List).map((json) => Category.fromJson(json)).toList();
     } else {
@@ -52,26 +55,17 @@ class MoviesRepositoryImp implements MoviesRepositoryInterface {
 
   @override
   Future<MoviesResults> getMoviesByCategory(int id, {int page = 1}) async {
-    // final preferences = await SharedPreferences.getInstance();
-
-    // if (preferences.containsKey(keysMovies)) {
-    //   var data = json.decode(preferences.get(keysMovies));
-    //   return MoviesResults.fromJson(data);
-    // }
-
     Map<String, dynamic> query = {
       'page': page,
       'api_key': apiKey,
-      'with_genres': '28',
+      'with_genres': id,
       'language': 'pt-BR',
-      'sort_by': 'popularity.desc',
+      'sort_by': 'popularity.desc'
     };
 
-    var response = await dio.get('/discover/movie', queryParameters: query);
+    var response = await dio.get('/discover/movie');
 
     if (response.statusCode == 200) {
-      // await preferences.setString(keysMovies, json.encode(response.data));
-
       return MoviesResults.fromJson(response.data);
     } else {
       throw ResponseError(message: 'Error ao carregar os filmes');
@@ -79,7 +73,36 @@ class MoviesRepositoryImp implements MoviesRepositoryInterface {
   }
 
   @override
-  Future<List<Movie>> searchMovies(String query) async {
-    throw UnimplementedError();
+  Future<List<Movie>> searchMovies(String search) async {
+    if (search == null || search.trim().isEmpty)
+      throw ResponseError(message: 'Search não pode ser nula');
+
+    Map<String, dynamic> query = {
+      'query': search,
+      'api_key': apiKey,
+      'language': 'pt-BR'
+    };
+
+    var response = await dio.get('/search/movie');
+
+    if (response.statusCode == 200) {
+      final data = response.data['results'];
+      return (data as List).map((json) => Movie.fromJson(json)).toList();
+    } else {
+      throw ResponseError(message: 'Error ao buscar os filmes');
+    }
+  }
+
+  @override
+  Future<Credits> getCreditsByMovieId(int id) async {
+    Map<String, dynamic> query = {'api_key': apiKey, 'language': 'pt-BR'};
+
+    var response = await dio.get('/movie/$id/credits');
+
+    if (response.statusCode == 200) {
+      return Credits.fromJson(response.data);
+    } else {
+      throw ResponseError(message: 'Error ao buscar os créditos');
+    }
   }
 }

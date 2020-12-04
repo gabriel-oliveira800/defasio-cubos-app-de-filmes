@@ -31,7 +31,7 @@ class AppModule extends MainModule {
       ),
       ModularRouter(
         '/detaisl_movies',
-        child: (_, args) => DetailsScreen(movie: args.data),
+        child: (_, args) => DetailsScreen(),
       ),
     ];
   }

@@ -1,8 +1,7 @@
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:movies/src/controllers/tab_store.dart';
-import 'package:movies/src/models/category.dart';
+import 'package:movies/src/models/movie_details.dart';
 import 'package:movies/src/utils/constants.dart';
-import 'package:movies/src/models/movie.dart';
 import 'package:flutter/material.dart';
 
 import 'components/year_time.dart';
@@ -14,9 +13,6 @@ import 'components/movie_description.dart';
 import '../home/components/image_banner.dart';
 
 class DetailsScreen extends StatefulWidget {
-  final Movie movie;
-  const DetailsScreen({Key key, @required this.movie}) : super(key: key);
-
   @override
   _DetailsScreenState createState() => _DetailsScreenState();
 }
@@ -24,7 +20,7 @@ class DetailsScreen extends StatefulWidget {
 class _DetailsScreenState extends State<DetailsScreen> {
   var tabStore = Modular.get<TabStore>();
 
-  Movie get movie => widget.movie;
+  var movie = MovieDetails();
 
   @override
   Widget build(BuildContext context) {
@@ -32,14 +28,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
     final _colorsubTitle = Color(0xFF5E6770);
 
     final size = MediaQuery.of(context).size;
-
-    var categoriesItems = <Category>[];
-    movie.categories.map((ids) {
-      tabStore.categories.where((element) {
-        if (element.id == ids) categoriesItems.add(element);
-        return true;
-      }).toList();
-    }).toList();
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -117,7 +105,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
               SizedBox(height: 12),
               DetailsCategory(
                 color: _colorsubTitle,
-                categories: categoriesItems,
+                categories: movie.categories,
               ),
               SizedBox(height: 63),
               MovieDescription(
