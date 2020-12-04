@@ -8,11 +8,7 @@
 
 <h3>Aplicativo de visualização de filmes, por categorias ou por pesquisa.</h3>
  <p float="center">
-  <img src="screenshoot/03.png" width="80%" height="80%">
+  <img src="screenshoot/06.png" width="80%" height="80%">
  </p>
 
- <p float="left">
-  <img src="screenshoot/01.png" width="50%>
-  <img src="screenshoot/02.png" width="50%">
-  <img src="screenshoot/04.png" width="50%">
-</p>
+![video](screenshoot/05.gif)
