@@ -9,6 +9,20 @@ part of 'movie_details_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$MovieDetailsStore on _MovieDetailsStoreBase, Store {
+  Computed<bool> _$hasDataComputed;
+
+  @override
+  bool get hasData => (_$hasDataComputed ??= Computed<bool>(() => super.hasData,
+          name: '_MovieDetailsStoreBase.hasData'))
+      .value;
+  Computed<bool> _$hasDataCreditsComputed;
+
+  @override
+  bool get hasDataCredits =>
+      (_$hasDataCreditsComputed ??= Computed<bool>(() => super.hasDataCredits,
+              name: '_MovieDetailsStoreBase.hasDataCredits'))
+          .value;
+
   final _$movieDetailsAtom = Atom(name: '_MovieDetailsStoreBase.movieDetails');
 
   @override
@@ -97,11 +111,24 @@ mixin _$MovieDetailsStore on _MovieDetailsStoreBase, Store {
   }
 
   @override
+  void dispose() {
+    final _$actionInfo = _$_MovieDetailsStoreBaseActionController.startAction(
+        name: '_MovieDetailsStoreBase.dispose');
+    try {
+      return super.dispose();
+    } finally {
+      _$_MovieDetailsStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 movieDetails: ${movieDetails},
 credits: ${credits},
-loading: ${loading}
+loading: ${loading},
+hasData: ${hasData},
+hasDataCredits: ${hasDataCredits}
     ''';
   }
 }

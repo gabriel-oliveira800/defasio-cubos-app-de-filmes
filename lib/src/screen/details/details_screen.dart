@@ -1,10 +1,16 @@
+import 'package:mobx/mobx.dart';
+import 'package:movies/src/controllers/connection_store.dart';
 import 'package:movies/src/controllers/movie_details_store.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:movies/src/utils/constants.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:movies/src/models/movie.dart';
 import 'package:flutter/material.dart';
 
-import 'components/year_time.dart';
+import 'components/buget_companies.dart';
+import 'components/media_movie.dart';
+import 'components/title_movie.dart';
+import 'components/wrapper_box.dart';
 import 'components/poster_back.dart';
 import 'components/rated_movie.dart';
 import 'components/crew_cast_item.dart';
@@ -20,15 +26,51 @@ class DetailsScreen extends StatefulWidget {
   _DetailsScreenState createState() => _DetailsScreenState();
 }
 
-class _DetailsScreenState extends State<DetailsScreen> {
-  var movieDetailsStore = Modular.get<MovieDetailsStore>();
-
+class _DetailsScreenState extends State<DetailsScreen>
+    with TickerProviderStateMixin {
   Movie get currentMovie => widget.currentMovie;
+
+  Animation<double> opacity;
+  Animation<double> position;
+  AnimationController controller;
+
+  ReactionDisposer _disposer;
+  var store = Modular.get<MovieDetailsStore>();
+  var connectionStore = Modular.get<ConnectionStore>();
+
+  @override
+  void initState() {
+    super.initState();
+
+    controller = AnimationController(
+      duration: Duration(milliseconds: 700),
+      vsync: this,
+    );
+
+    position = Tween<double>(begin: 1, end: 0).animate(controller);
+    opacity = Tween<double>(begin: 0, end: 1.0).animate(controller);
+
+    controller.forward();
+
+    store.getMovieDetailsById(currentMovie.id);
+
+    _disposer = reaction(
+      (_) => connectionStore.stream.value,
+      (_) => connectionStore.showNetWorkingOn(context),
+    );
+  }
+
+  @override
+  void dispose() {
+    _disposer();
+    store.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final _colorTitle = Color(0xFF343A40);
-    final _colorsubTitle = Color(0xFF5E6770);
+    final _colorTitle = Color(0xFF5E6770);
+    final _colorsubTitle = Color(0xFF343A40);
 
     final size = MediaQuery.of(context).size;
 
@@ -38,10 +80,15 @@ class _DetailsScreenState extends State<DetailsScreen> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              PosterBannerBack(
-                height: 280,
-                width: size.width,
-                onTap: () => Modular.to.pop(),
+              AnimatedBuilder(
+                animation: controller,
+                builder: (context, child) => PosterBannerBack(
+                  height: 280,
+                  opacity: opacity,
+                  width: size.width,
+                  position: position,
+                  onTap: () => Modular.to.pop(),
+                ),
               ),
               SizedBox(
                 width: 216,
@@ -60,115 +107,121 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   ],
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 32.0),
-                child: RatedMovie(rated: '7.3'),
-              ),
-              Container(
-                height: 40,
-                width: size.width,
-                color: backgroundColor,
+              Observer(
+                builder: (_) => Padding(
+                  child: store.hasData
+                      ? RatedMovie(
+                          rated: store.movieDetails.rated.toStringAsFixed(2),
+                        )
+                      : WrapperBox(width: 130),
+                  padding: const EdgeInsets.symmetric(vertical: 32.0),
+                ),
               ),
               Text(
                 currentMovie.title,
+                textAlign: TextAlign.center,
                 style: _descriptionStyle.copyWith(
                   fontSize: 20,
-                  fontWeight: FontWeight.w600,
                   color: _colorTitle,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
               SizedBox(height: 12),
-              RichText(
-                text: TextSpan(
-                  text: 'Título original: ',
-                  children: [
-                    TextSpan(
-                      text: currentMovie.originalTitle.toUpperCase(),
-                      style: _descriptionStyle.copyWith(
-                        fontWeight: FontWeight.w500,
+              TitleMovie(
+                style: _descriptionStyle,
+                title: currentMovie.originalTitle.toUpperCase(),
+              ),
+              SizedBox(height: 12),
+              Observer(
+                builder: (_) => store.hasData
+                    ? MediaMovieWrapper(
+                        runtime: store.movieDetails.runtime,
+                        date: store.movieDetails.releaseDate,
+                      )
+                    : Padding(
+                        child: WrapperBox(),
+                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       ),
-                    )
-                  ],
-                  style: _descriptionStyle,
-                ),
-              ),
-              Padding(
-                child: Row(
-                  children: [
-                    YearTimeMovie(
-                      subtitle: 'ano: ',
-                      title: '2020',
-                      // title: '${movie.releaseDate.year}',
-                    ),
-                    Spacer(),
-                    YearTimeMovie(title: '1h 20 min', subtitle: 'duração: ')
-                  ],
-                ),
-                padding: const EdgeInsets.only(
-                  left: 44,
-                  top: 18,
-                  right: 44,
-                  bottom: 12,
-                ),
               ),
               SizedBox(height: 12),
-              DetailsCategory(
-                color: _colorsubTitle,
-                categories: [],
+              Observer(
+                builder: (_) => store.hasData
+                    ? DetailsCategory(
+                        color: _colorsubTitle,
+                        categories: store.movieDetails.categories,
+                      )
+                    : Padding(
+                        child: WrapperBox(),
+                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                      ),
               ),
               SizedBox(height: 63),
-              MovieDescription(
-                width: size.width,
-                title: 'Descrição',
-                overview: 'movie.overview',
-                styleTitle: TextStyle(
-                  fontSize: 14,
-                  color: _colorsubTitle,
-                  fontWeight: FontWeight.normal,
-                ),
-                stylesubTitle: TextStyle(
-                  fontSize: 12,
-                  color: _colorTitle,
-                  fontWeight: FontWeight.w600,
-                ),
+              Observer(
+                builder: (_) => store.hasData
+                    ? MovieDescription(
+                        width: size.width,
+                        title: 'Descrição',
+                        overview: store.movieDetails.overview,
+                        styleTitle: TextStyle(
+                          fontSize: 14,
+                          color: _colorsubTitle,
+                          fontWeight: FontWeight.normal,
+                        ),
+                        stylesubTitle: TextStyle(
+                          fontSize: 12,
+                          color: _colorTitle,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      )
+                    : Padding(
+                        child: WrapperBox(),
+                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                      ),
               ),
               SizedBox(height: 40),
-              Padding(
-                child: Column(
-                  children: [
-                    YearTimeMovie(
-                      subtitle: 'ORÇAMENTO: ',
-                      title: '\$ 152,000,000',
-                      alignment: Alignment.centerLeft,
-                    ),
-                    SizedBox(height: 4),
-                    YearTimeMovie(
-                      subtitle: 'PRODUTORAS: ',
-                      title: 'MARVEL STUDIOS',
-                      alignment: Alignment.centerLeft,
-                    ),
-                  ],
-                ),
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              Observer(
+                builder: (_) {
+                  final hasCompanies = store.movieDetails?.companies == null ||
+                      store.movieDetails.companies.isEmpty;
+
+                  return store.hasData
+                      ? BudgetCompanies(
+                          budget: store.movieDetails.budget,
+                          companie: !hasCompanies
+                              ? store.movieDetails.companies.first
+                              : null,
+                        )
+                      : Padding(
+                          child: WrapperBox(),
+                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                        );
+                },
               ),
               SizedBox(height: 40),
-              Padding(
-                child: CrewCastItem(
-                  crews: [],
-                  cats: [],
-                  width: size.width,
-                  styleTitle: TextStyle(
-                    fontSize: 14,
-                    color: _colorsubTitle,
-                    fontWeight: FontWeight.normal,
-                  ),
-                  stylesubTitle: TextStyle(
-                    fontSize: 12,
-                    color: _colorTitle,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                padding: const EdgeInsets.symmetric(horizontal: 20),
+              Observer(
+                builder: (_) => store.hasDataCredits
+                    ? Padding(
+                        child: CrewCastItem(
+                          crews: store.credits.crew,
+                          cats: store.credits.casts,
+                          width: size.width,
+                          styleTitle: TextStyle(
+                            fontSize: 14,
+                            color: _colorTitle,
+                            fontWeight: FontWeight.normal,
+                          ),
+                          stylesubTitle: TextStyle(
+                            fontSize: 12,
+                            color: _colorsubTitle,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                      )
+                    : Padding(
+                        child: WrapperBox(),
+                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                      ),
               ),
               SizedBox(height: 90),
             ],

@@ -39,7 +39,9 @@ class Movie {
     data['poster_path'] = this.posterUrl;
     data['backdrop_path'] = this.backdropUrl;
     data['original_title'] = this.originalTitle;
-    
+
     return data;
   }
+
+  bool get hasImage => posterUrl != null;
 }

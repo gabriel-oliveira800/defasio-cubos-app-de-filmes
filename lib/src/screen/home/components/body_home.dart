@@ -13,7 +13,7 @@ class BodyHome extends StatelessWidget {
   final bool loading;
   final Function onRefresh;
   final List<Movie> movies;
-  final List<Category> categories;
+  final List<Category> categories; 
 
   const BodyHome({
     Key key,
@@ -35,11 +35,11 @@ class BodyHome extends StatelessWidget {
       );
     }
 
-    if (movies.isEmpty) {
+    if (movies == null || movies.isEmpty) {
       return Padding(
         child: NotResult(
           size: size,
-          text: 'Nenhum resultado encontrado',
+          text: error ?? 'Nenhum resultado encontrado',
           child: Padding(
             child: ButtonMovie(
               onPressed: onRefresh,

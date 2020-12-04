@@ -1,8 +1,8 @@
 import 'package:cache_image/cache_image.dart';
-import 'package:flutter/material.dart';
 import 'package:movies/src/models/category.dart';
 import 'package:movies/src/models/movie.dart';
 import 'package:movies/src/utils/constants.dart';
+import 'package:flutter/material.dart';
 
 class MovieItemBody extends StatelessWidget {
   final Movie movie;
@@ -25,13 +25,16 @@ class MovieItemBody extends StatelessWidget {
     final gradientColor = Colors.black;
     final shadowColor = Theme.of(context).accentColor;
 
+    if (movie == null) return Container();
+
     return InkWell(
       onTap: onTap,
       child: Hero(
-        tag: movie.posterUrl,
+        tag: movie.hasImage ? movie.posterUrl : '',
         child: Container(
           height: height,
           decoration: BoxDecoration(
+            color: Theme.of(context).accentColor,
             boxShadow: [
               BoxShadow(
                 blurRadius: 20,
@@ -41,10 +44,12 @@ class MovieItemBody extends StatelessWidget {
               ),
             ],
             borderRadius: BorderRadius.circular(radius),
-            image: DecorationImage(
-              fit: BoxFit.fill,
-              image: CacheImage(baseUrlImages + movie.backdropUrl),
-            ),
+            image: movie.hasImage
+                ? DecorationImage(
+                    fit: BoxFit.fill,
+                    image: CacheImage(baseUrlImages + movie.posterUrl),
+                  )
+                : null,
           ),
           alignment: Alignment.bottomCenter,
           child: Container(

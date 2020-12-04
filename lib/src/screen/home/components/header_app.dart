@@ -1,24 +1,22 @@
-import 'package:movies/src/models/category.dart';
+import 'package:movies/src/controllers/tab_store.dart';
 import 'package:movies/src/utils/constants.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter/material.dart';
 
 import '../../components/tab_categories.dart';
 
 class HeaderApp extends StatelessWidget {
-  final int categorySelectedIndex;
+  final TabStore tabStore;
   final Function(int) onChangedTab;
-  final List<Category> categories;
-
   final Function(String) onChanged;
   final Animation<double> animation;
 
   const HeaderApp({
     Key key,
-    @required this.onChanged,
+    @required this.tabStore,
     @required this.animation,
-    @required this.categories,
+    @required this.onChanged,
     @required this.onChangedTab,
-    @required this.categorySelectedIndex,
   }) : super(key: key);
 
   @override
@@ -38,6 +36,7 @@ class HeaderApp extends StatelessWidget {
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [
+                Color(0xFFFFFFFF),
                 Color(0xFFFFFFFF),
                 Color(0xFFFFFFFF),
                 Colors.white.withAlpha(0),
@@ -105,11 +104,13 @@ class HeaderApp extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 18),
-              TabCategories(
-                  categories: categories,
+              Observer(
+                builder: (_) => TabCategories(
                   onChangedTab: onChangedTab,
-                  currentTabSelected: categorySelectedIndex,
+                  categories: tabStore.categories,
+                  currentTabSelected: tabStore.indexTab,
                 ),
+              ),
             ],
           ),
         );

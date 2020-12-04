@@ -1,3 +1,4 @@
+import 'package:cache_image/cache_image.dart';
 import 'package:flutter/material.dart';
 
 class ImageBanner extends StatelessWidget {
@@ -37,7 +38,7 @@ class ImageBanner extends StatelessWidget {
               color: Color.fromRGBO(0, 56, 76, 0.25),
             ),
           ],
-          image: DecorationImage(image: NetworkImage(imageUrl)),
+          image: DecorationImage(image: CacheImage(imageUrl)),
         ),
       ),
     );

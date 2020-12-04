@@ -9,14 +9,6 @@ part of 'movies_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$MoviesStore on _MoviesStoreBase, Store {
-  Computed<bool> _$searchingComputed;
-
-  @override
-  bool get searching =>
-      (_$searchingComputed ??= Computed<bool>(() => super.searching,
-              name: '_MoviesStoreBase.searching'))
-          .value;
-
   final _$pageAtom = Atom(name: '_MoviesStoreBase.page');
 
   @override
@@ -85,6 +77,14 @@ mixin _$MoviesStore on _MoviesStoreBase, Store {
         .run(() => super.getMovies(categoryId: categoryId));
   }
 
+  final _$searchMoviesAsyncAction =
+      AsyncAction('_MoviesStoreBase.searchMovies');
+
+  @override
+  Future<void> searchMovies() {
+    return _$searchMoviesAsyncAction.run(() => super.searchMovies());
+  }
+
   final _$getByCategoryChangedMoviesAsyncAction =
       AsyncAction('_MoviesStoreBase.getByCategoryChangedMovies');
 
@@ -94,12 +94,13 @@ mixin _$MoviesStore on _MoviesStoreBase, Store {
         .run(() => super.getByCategoryChangedMovies(index));
   }
 
-  final _$searchMoviesAsyncAction =
-      AsyncAction('_MoviesStoreBase.searchMovies');
+  final _$_getMoviesCacheByServiceAsyncAction =
+      AsyncAction('_MoviesStoreBase._getMoviesCacheByService');
 
   @override
-  Future<void> searchMovies() {
-    return _$searchMoviesAsyncAction.run(() => super.searchMovies());
+  Future<void> _getMoviesCacheByService() {
+    return _$_getMoviesCacheByServiceAsyncAction
+        .run(() => super._getMoviesCacheByService());
   }
 
   final _$_MoviesStoreBaseActionController =
@@ -133,8 +134,7 @@ mixin _$MoviesStore on _MoviesStoreBase, Store {
 page: ${page},
 search: ${search},
 erros: ${erros},
-loading: ${loading},
-searching: ${searching}
+loading: ${loading}
     ''';
   }
 }

@@ -19,7 +19,7 @@ class AppModule extends MainModule {
       Bind((i) => TabStore(i())),
       Bind((i) => ServiceImp()),
       Bind((i) => ConnectionStore()),
-      Bind((i) => MovieDetailsStore(i())),
+      Bind((i) => MovieDetailsStore(i(),i())),
       Bind((i) => MoviesRepositoryImp(i(), i())),
       Bind((i) => MoviesStore(i(), i(),i(), i())),
       Bind((i) => Dio(BaseOptions(baseUrl: 'https://api.themoviedb.org/3'))),

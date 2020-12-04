@@ -19,7 +19,7 @@ abstract class _TabStoreBase with Store {
   @action
   void setCurrentTab(int value) => indexTab = value;
 
-  ObservableList<Category> categories = ObservableList<Category>.of([]);
+  ObservableList<Category> categories = ObservableList<Category>();
 
   @action
   void setCategories(List<Category> value) {
@@ -37,6 +37,7 @@ abstract class _TabStoreBase with Store {
   Future<void> _getAllCategories() async {
     try {
       var result = await repository.getCategories();
+
       if (result != null) categories = ObservableList<Category>.of(result);
     } on ResponseError catch (e) {
       error = e.message;
