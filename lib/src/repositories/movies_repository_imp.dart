@@ -2,9 +2,10 @@ import 'dart:convert';
 
 import 'package:movies/src/models/credits.dart';
 import 'package:movies/src/models/movie_details.dart';
+import 'package:movies/src/service/preferences_service.dart';
+import 'package:movies/src/service/preferences_service_imp.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:movies/src/models/movies_result.dart';
-import 'package:movies/src/utils/constants.dart';
 import 'package:movies/src/models/category.dart';
 import 'package:movies/src/erros/failure.dart';
 import 'package:movies/src/utils/api_key.dart';
@@ -14,14 +15,15 @@ import 'package:dio/dio.dart';
 
 class MoviesRepositoryImp implements MoviesRepositoryInterface {
   final Dio dio;
+  final ServiceImp service;
 
-  const MoviesRepositoryImp(this.dio);
+  const MoviesRepositoryImp(this.dio, this.service);
 
   @override
   Future<MovieDetails> getMovieDetails(int id) async {
     Map<String, dynamic> query = {'api_key': apiKey, 'language': 'pt-BR'};
 
-    var response = await dio.get('/movie/$id');
+    var response = await dio.get('/movie/$id', queryParameters: query);
 
     if (response.statusCode == 200) {
       return MovieDetails.fromJson(response.data);
@@ -32,20 +34,17 @@ class MoviesRepositoryImp implements MoviesRepositoryInterface {
 
   @override
   Future<List<Category>> getCategories() async {
-    // final preferences = await SharedPreferences.getInstance();
-
-    // if (preferences.containsKey(keysCategories)) {
-    //   var data = json.decode(preferences.get(keysCategories));
-    //   return (data as List).map((json) => Category.fromJson(json)).toList();
-    // }
+    var result = await service.getCategories(Service.keysCategories);
+    if (result != null) return result;
 
     Map<String, dynamic> query = {'api_key': apiKey, 'language': 'pt-BR'};
-    var response = await dio.get('/genre/movie/list');
+
+    var response = await dio.get('/genre/movie/list', queryParameters: query);
 
     if (response.statusCode == 200) {
       final data = response.data['genres'];
 
-      // await preferences.setString(keysCategories, json.encode(data));
+      await service.putCategories(Service.keysCategories, data);
 
       return (data as List).map((json) => Category.fromJson(json)).toList();
     } else {
@@ -63,7 +62,7 @@ class MoviesRepositoryImp implements MoviesRepositoryInterface {
       'sort_by': 'popularity.desc'
     };
 
-    var response = await dio.get('/discover/movie');
+    var response = await dio.get('/discover/movie', queryParameters: query);
 
     if (response.statusCode == 200) {
       return MoviesResults.fromJson(response.data);
@@ -83,7 +82,7 @@ class MoviesRepositoryImp implements MoviesRepositoryInterface {
       'language': 'pt-BR'
     };
 
-    var response = await dio.get('/search/movie');
+    var response = await dio.get('/search/movie', queryParameters: query);
 
     if (response.statusCode == 200) {
       final data = response.data['results'];
@@ -97,7 +96,7 @@ class MoviesRepositoryImp implements MoviesRepositoryInterface {
   Future<Credits> getCreditsByMovieId(int id) async {
     Map<String, dynamic> query = {'api_key': apiKey, 'language': 'pt-BR'};
 
-    var response = await dio.get('/movie/$id/credits');
+    var response = await dio.get('/movie/$id/credits', queryParameters: query);
 
     if (response.statusCode == 200) {
       return Credits.fromJson(response.data);

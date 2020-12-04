@@ -13,6 +13,9 @@ import 'components/movie_description.dart';
 import '../home/components/image_banner.dart';
 
 class DetailsScreen extends StatefulWidget {
+  final int id;
+  const DetailsScreen({@required this.id});
+
   @override
   _DetailsScreenState createState() => _DetailsScreenState();
 }

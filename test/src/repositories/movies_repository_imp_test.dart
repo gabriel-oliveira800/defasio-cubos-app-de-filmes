@@ -16,7 +16,7 @@ class DioMock extends Mock implements Dio {}
 
 main() {
   var dio = DioMock();
-  var repository = MoviesRepositoryImp(dio);
+  var repository = MoviesRepositoryImp(dio, null);
 
   group('Test in Category', () {
     test('must obtain a list of Category', () async {
