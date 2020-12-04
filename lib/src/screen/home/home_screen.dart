@@ -30,8 +30,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       vsync: this,
       duration: Duration(milliseconds: 300),
     );
-    animation = Tween<double>(begin: 0, end: 1.0).animate(controller);
 
+    animation = Tween<double>(begin: 0, end: 1.0).animate(controller);
     controller.forward();
 
     _disposer = reaction(

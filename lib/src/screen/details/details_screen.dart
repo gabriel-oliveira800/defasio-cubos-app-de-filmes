@@ -43,7 +43,7 @@ class _DetailsScreenState extends State<DetailsScreen>
     super.initState();
 
     controller = AnimationController(
-      duration: Duration(milliseconds: 700),
+      duration: Duration(milliseconds: 300),
       vsync: this,
     );
 
