@@ -29,7 +29,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     animation = Tween<double>(begin: 0, end: 1.0).animate(controller);
 
     controller.forward();
-    moviesStore.getMovies();
 
     _disposer = reaction(
       (_) => connectionStore.stream.value,
@@ -64,10 +63,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               left: 0,
               right: 0,
               child: Padding(
-                child: HeaderApp(
-                  animation: animation,
-                  tabstore: moviesStore.tabStore,
-                  onChanged: moviesStore.setSearch,
+                child: Observer(
+                  builder: (_) => HeaderApp(
+                    animation: animation,
+                    onChanged: moviesStore.setSearch,
+                    categories: moviesStore.tabStore.categories,
+                    onChangedTab: moviesStore.getByCategoryChangedMovies,
+                    categorySelectedIndex: moviesStore.tabStore.indexTab,
+                  ),
                 ),
                 padding: const EdgeInsets.all(12),
               ),

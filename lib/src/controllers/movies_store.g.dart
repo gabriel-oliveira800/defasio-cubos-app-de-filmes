@@ -80,8 +80,18 @@ mixin _$MoviesStore on _MoviesStoreBase, Store {
   final _$getMoviesAsyncAction = AsyncAction('_MoviesStoreBase.getMovies');
 
   @override
-  Future<void> getMovies() {
-    return _$getMoviesAsyncAction.run(() => super.getMovies());
+  Future<void> getMovies({int categoryId}) {
+    return _$getMoviesAsyncAction
+        .run(() => super.getMovies(categoryId: categoryId));
+  }
+
+  final _$getByCategoryChangedMoviesAsyncAction =
+      AsyncAction('_MoviesStoreBase.getByCategoryChangedMovies');
+
+  @override
+  Future<void> getByCategoryChangedMovies(int index) {
+    return _$getByCategoryChangedMoviesAsyncAction
+        .run(() => super.getByCategoryChangedMovies(index));
   }
 
   final _$searchMoviesAsyncAction =

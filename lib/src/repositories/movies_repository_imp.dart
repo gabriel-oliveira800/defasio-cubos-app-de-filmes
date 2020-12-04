@@ -1,11 +1,8 @@
-import 'dart:convert';
-
-import 'package:movies/src/models/credits.dart';
-import 'package:movies/src/models/movie_details.dart';
-import 'package:movies/src/service/preferences_service.dart';
 import 'package:movies/src/service/preferences_service_imp.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:movies/src/service/preferences_service.dart';
+import 'package:movies/src/models/movie_details.dart';
 import 'package:movies/src/models/movies_result.dart';
+import 'package:movies/src/models/credits.dart';
 import 'package:movies/src/models/category.dart';
 import 'package:movies/src/erros/failure.dart';
 import 'package:movies/src/utils/api_key.dart';

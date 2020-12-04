@@ -1,5 +1,5 @@
 import 'package:movies/src/models/category.dart';
-import 'package:movies/src/models/movie.dart';
+import 'package:movies/src/models/movies_result.dart';
 
 abstract class Service {
   static final String keysMovies = 'MOVIES';
@@ -8,6 +8,6 @@ abstract class Service {
   Future<bool> putMovies(String key, dynamic data);
   Future<bool> putCategories(String key, dynamic data);
 
-  Future<List<Movie>> getMovies(String key);
+  Future<MoviesResults> getMovies(String key);
   Future<List<Category>> getCategories(String key);
 }

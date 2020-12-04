@@ -29,16 +29,18 @@ class NotResult extends StatelessWidget {
             color: titleColor ?? Theme.of(context).accentColor,
           ),
           Container(
-            width: size.width * 85,
+            width: size.width,
+            alignment: Alignment.center,
             child: Text(
-              text ?? '',
+              text,
+              textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 16,
-                color: titleColor,
+                color: subtitleColor,
                 fontWeight: FontWeight.normal,
               ),
             ),
-            padding: const EdgeInsets.all(18.0),
+            padding: const EdgeInsets.symmetric(vertical: 16),
           ),
           child ?? Container(),
         ],

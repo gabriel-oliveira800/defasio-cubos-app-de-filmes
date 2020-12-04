@@ -39,7 +39,7 @@ class BodyHome extends StatelessWidget {
       return Padding(
         child: NotResult(
           size: size,
-          text: error ?? 'Nenhum resultado encontrado',
+          text: 'Nenhum resultado encontrado',
           child: Padding(
             child: ButtonMovie(
               onPressed: onRefresh,

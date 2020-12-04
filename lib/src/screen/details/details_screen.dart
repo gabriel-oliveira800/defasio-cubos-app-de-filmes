@@ -1,7 +1,7 @@
+import 'package:movies/src/controllers/movie_details_store.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:movies/src/controllers/tab_store.dart';
-import 'package:movies/src/models/movie_details.dart';
 import 'package:movies/src/utils/constants.dart';
+import 'package:movies/src/models/movie.dart';
 import 'package:flutter/material.dart';
 
 import 'components/year_time.dart';
@@ -13,17 +13,17 @@ import 'components/movie_description.dart';
 import '../home/components/image_banner.dart';
 
 class DetailsScreen extends StatefulWidget {
-  final int id;
-  const DetailsScreen({@required this.id});
+  final Movie currentMovie;
+  const DetailsScreen({@required this.currentMovie});
 
   @override
   _DetailsScreenState createState() => _DetailsScreenState();
 }
 
 class _DetailsScreenState extends State<DetailsScreen> {
-  var tabStore = Modular.get<TabStore>();
+  var movieDetailsStore = Modular.get<MovieDetailsStore>();
 
-  var movie = MovieDetails();
+  Movie get currentMovie => widget.currentMovie;
 
   @override
   Widget build(BuildContext context) {
@@ -53,8 +53,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     Positioned(
                       top: -180,
                       child: ImageBanner(
-                        tag: movie.posterUrl,
-                        imageUrl: baseUrlImages + movie.posterUrl,
+                        tag: currentMovie.posterUrl,
+                        imageUrl: baseUrlImages + currentMovie.posterUrl,
                       ),
                     ),
                   ],
@@ -62,10 +62,15 @@ class _DetailsScreenState extends State<DetailsScreen> {
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 32.0),
-                child: RatedMovie(rated: movie.rated.toStringAsFixed(2)),
+                child: RatedMovie(rated: '7.3'),
+              ),
+              Container(
+                height: 40,
+                width: size.width,
+                color: backgroundColor,
               ),
               Text(
-                movie.title.toUpperCase(),
+                currentMovie.title,
                 style: _descriptionStyle.copyWith(
                   fontSize: 20,
                   fontWeight: FontWeight.w600,
@@ -78,7 +83,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   text: 'Título original: ',
                   children: [
                     TextSpan(
-                      text: movie.originalTitle.toUpperCase(),
+                      text: currentMovie.originalTitle.toUpperCase(),
                       style: _descriptionStyle.copyWith(
                         fontWeight: FontWeight.w500,
                       ),
@@ -92,7 +97,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   children: [
                     YearTimeMovie(
                       subtitle: 'ano: ',
-                      title: '${movie.releaseDate.year}',
+                      title: '2020',
+                      // title: '${movie.releaseDate.year}',
                     ),
                     Spacer(),
                     YearTimeMovie(title: '1h 20 min', subtitle: 'duração: ')
@@ -108,13 +114,13 @@ class _DetailsScreenState extends State<DetailsScreen> {
               SizedBox(height: 12),
               DetailsCategory(
                 color: _colorsubTitle,
-                categories: movie.categories,
+                categories: [],
               ),
               SizedBox(height: 63),
               MovieDescription(
                 width: size.width,
                 title: 'Descrição',
-                overview: movie.overview,
+                overview: 'movie.overview',
                 styleTitle: TextStyle(
                   fontSize: 14,
                   color: _colorsubTitle,

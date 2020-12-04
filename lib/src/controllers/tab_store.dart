@@ -10,9 +10,7 @@ abstract class _TabStoreBase with Store {
   final MoviesRepositoryInterface repository;
 
   _TabStoreBase(this.repository) {
-    autorun((_){
-      _getAllCategories();
-    });
+    _getAllCategories();
   }
 
   @observable
@@ -21,7 +19,7 @@ abstract class _TabStoreBase with Store {
   @action
   void setCurrentTab(int value) => indexTab = value;
 
-  ObservableList<Category> categories = ObservableList<Category>();
+  ObservableList<Category> categories = ObservableList<Category>.of([]);
 
   @action
   void setCategories(List<Category> value) {
@@ -29,7 +27,8 @@ abstract class _TabStoreBase with Store {
   }
 
   @computed
-  Category get getCurrentTab => categories.elementAt(indexTab);
+  Category get getCurrentTab =>
+      categories.isNotEmpty ? categories.elementAt(indexTab) : null;
 
   @observable
   String error;
@@ -37,10 +36,8 @@ abstract class _TabStoreBase with Store {
   @action
   Future<void> _getAllCategories() async {
     try {
-      
       var result = await repository.getCategories();
       if (result != null) categories = ObservableList<Category>.of(result);
-
     } on ResponseError catch (e) {
       error = e.message;
     }
