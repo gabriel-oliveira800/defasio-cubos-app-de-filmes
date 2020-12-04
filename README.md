@@ -1,16 +1,18 @@
-# movies
+<h1 align="center">
+  <br>
+  <a href=""><img src="screenshoot/meu_logo.png" alt="Notes" width="200"></a>
+  <br>
+    Desafio Cubos - App de filmes 
+  <br>
+</h1>
 
-A new Flutter project.
+<h3>Aplicativo de visualização de filmes, por categorias ou por pesquisa.</h3>
+ <p float="center">
+  <img src="screenshoot/03.png" width="80%" height="80%">
+ </p>
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+ <p float="left">
+  <img src="screenshoot/01.png" width="50%>
+  <img src="screenshoot/02.png" width="50%">
+  <img src="screenshoot/04.png" width="50%">
+</p>
